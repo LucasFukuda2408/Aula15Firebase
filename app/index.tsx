@@ -5,10 +5,12 @@ import { signInWithEmailAndPassword,sendPasswordResetEmail } from 'firebase/auth
 import {auth} from "../services/firebaseConfig"
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useTranslation } from 'react-i18next';
 
 export default function LoginScreen() {
   const router = useRouter()//Hook de navegação
+
+  const{t,i18n}=useTranslation();
 
   // Estados para armazenar os valores digitados
   const [email, setEmail] = useState('');
@@ -29,6 +31,11 @@ export default function LoginScreen() {
     }
     verificarUsuarioLogado();
   },[])
+
+  //Função para alterar o idioma
+  const mudarIdioma = (lang:string)=>{
+    i18n.changeLanguage(lang);
+  }
 
   // Função para simular o envio do formulário
   const handleLogin= () => {
@@ -75,7 +82,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Realizar login</Text>
+      <Text style={styles.titulo}>{t("welcome")}</Text>
 
 
       {/* Campo Email */}
@@ -92,16 +99,28 @@ export default function LoginScreen() {
       {/* Campo Senha */}
       <TextInput
         style={styles.input}
-        placeholder="Senha"
+        placeholder={t("password")}
         placeholderTextColor="#aaa"
         secureTextEntry
         value={senha}
         onChangeText={setSenha}
       />
+      <View style={{flexDirection:"row"}}>
+        <TouchableOpacity
+          onPress={()=>mudarIdioma("pt")}
+        >
+          <Text style={[styles.textoBotao,{marginRight:15}]}>PT</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={()=>mudarIdioma("en")}
+        >
+          <Text style={styles.textoBotao}>EN</Text>
+        </TouchableOpacity>
+      </View>
       {/* Botão */}
       <TouchableOpacity style={styles.botao} onPress={handleLogin}>
-        <Text style={styles.textoBotao}>Login</Text>
+        <Text style={styles.textoBotao}>{t("login")}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={esqueceuSenha}>

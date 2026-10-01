@@ -3,13 +3,20 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import {auth} from "../services/firebaseConfig";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'expo-router';
+<<<<<<< HEAD
 import { CriarPerfilUsuario } from '../services/userDataService';
+=======
+import { criarPerfilUsuario } from '../services/userDataService';
+import { useTranslation } from 'react-i18next';
+>>>>>>> 9f473efe341c4e447a3973259745d4d1f3570e54
 
 export default function CadastroScreen() {
   // Estados para armazenar os valores digitados
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+
+  const{t} = useTranslation();
 
   //Hook de navegação
   const router = useRouter()
@@ -25,7 +32,11 @@ export default function CadastroScreen() {
         // Signed up 
         const user = userCredential.user;
 
+<<<<<<< HEAD
         await CriarPerfilUsuario({
+=======
+        await criarPerfilUsuario({
+>>>>>>> 9f473efe341c4e447a3973259745d4d1f3570e54
           uid:user.uid,
           email:user.email,
           nome:nome
