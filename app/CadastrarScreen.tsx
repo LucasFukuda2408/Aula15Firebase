@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import {auth} from "../services/firebaseConfig";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'expo-router';
+import { CriarPerfilUsuario } from '../services/userDataService';
 
 export default function CadastroScreen() {
   // Estados para armazenar os valores digitados
@@ -20,10 +21,15 @@ export default function CadastroScreen() {
       return;
     }
     createUserWithEmailAndPassword(auth, email, senha)
-      .then((userCredential) => {
+      .then(async(userCredential) => {
         // Signed up 
         const user = userCredential.user;
-        console.log(user);
+
+        await CriarPerfilUsuario({
+          uid:user.uid,
+          email:user.email,
+          nome:nome
+        })
         router.replace("/HomeScreen");
         // ...
       })
